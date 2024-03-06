@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/shunta0213/sprDB/internal/storage/page"
+	"github.com/shunta0213/sprDB/internal/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,13 +15,13 @@ func TestNewPage(t *testing.T) {
 
 		a := assert.New(t)
 		// type check
-		a.IsType(p.Id(), int32(0))
+		a.IsType(p.Id(), types.PageID(0))
 		a.IsType(p.PinCount(), uint32(0))
 		a.IsType(p.IsDirty(), bool(false))
 		a.IsType(p.Data(), &[page.PageSize]byte{})
 
 		// default value check
-		a.Equal(p.Id(), int32(10))
+		a.Equal(p.Id(), types.PageID(10))
 		a.Equal(p.IsDirty(), false)
 		a.Equal(p.PinCount(), uint32(0))
 		a.Equal(p.Data(), &[page.PageSize]byte{'a', 'b', 'c'})

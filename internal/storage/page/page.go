@@ -2,11 +2,13 @@
 // The size of a page is 8KiB.
 package page
 
+import "github.com/shunta0213/sprDB/internal/types"
+
 // page size 8KiB
-const PageSize = 8192
+const PageSize int64 = 8192
 
 type Page struct {
-	id       int32           // identifier
+	id       types.PageID    // identifier
 	pinCount uint32          // ?: counts how many tx are accessing
 	isDirty  bool            // the page is modified but not persistent
 	data     *[PageSize]byte // bytes stored on disk
@@ -15,10 +17,15 @@ type Page struct {
 // Create a new Page
 // pinCount is 0, isDirty is false for default
 func NewPage(id int32, data *[PageSize]byte) *Page {
-	return &Page{id: id, pinCount: 0, isDirty: false, data: data}
+	return &Page{
+		id:       types.PageID(id),
+		pinCount: 0,
+		isDirty:  false,
+		data:     data,
+	}
 }
 
-func (p *Page) Id() int32 {
+func (p *Page) Id() types.PageID {
 	return p.id
 }
 
